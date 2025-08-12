@@ -1,0 +1,37 @@
+Introdução ao SQL
+
+O que é SQL?
+SQL (Structured Query Language).
+
+Principais Comandos SQL:
+SELECT: Usado para selecionar dados de um banco de dados.
+INSERT: Usado para inserir novos dados em uma tabela.
+UPDATE: Usado para atualizar dados existentes em uma tabela.
+DELETE: Usado para deletar dados de uma tabela.
+CREATE TABLE: Usado para criar uma nova tabela.
+ALTER TABLE: Usado para modificar uma tabela existente.
+DROP TABLE: Usado para deletar uma tabela.
+
+
+Exemplos de Comandos SQL
+1. SELECT
+SELECT nome, idade FROM usuarios;
+Este comando seleciona as colunas nome e idade da tabela usuarios.
+
+2. INSERT
+INSERT INTO usuarios (nome, idade) VALUES ('João', 30);
+Este comando insere um novo registro na tabela usuarios com o nome 'João' e idade
+30.
+
+3. UPDATE
+UPDATE usuarios SET idade = 31 WHERE nome = 'João';
+Este comando atualiza a idade de 'João' para 31 na tabela usuarios.
+
+4. DELETE
+DELETE FROM usuarios WHERE nome = 'João'; (where - Onde)
+Este comando deleta o registro de 'João' da tabela usuarios.
+
+C -> Create (Insert Into)
+R -> Read (Select)
+U -> Update (Update)
+D -> Delete (Delete)

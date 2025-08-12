@@ -1,0 +1,134 @@
+O que é um Banco de Dados?
+Definição: Coleção organizada de dados armazenados eletronicamente.
+
+Componentes
+Dados: Informações armazenadas.
+DBMS: Software que gerencia os dados (ex: MySQL, PostgreSQL, Oracle, SQLite).
+
+Tipos de Bancos de Dados mais Comuns
+Relacional: Dados em tabelas (ex: SQL Server, MySQL, PostgreSQL, SQLite).
+NoSQL: Dados não tabulares (ex: MongoDB, Cassandra, Redis).
+
+Importância
+Eficiência: Acesso e gerenciamento rápidos.
+Segurança: Proteção contra acessos não autorizados.
+Tomada de Decisões: Informações precisas para decisões estratégicas.
+
+
+JDBC
+O que é JDBC?
+JDBC (Java Database Connectivity) é uma API que permite que programas Java se
+conectem e interajam com bancos de dados.
+
+Componentes Principais do JDBC
+1. Driver JDBC: Driver de conexão.
+2. Conexão: Classe DriverManager.
+3. Statement: Statement ou PreparedStatement.
+4. ResultSet: ResultSet.
+
+
+Passos Básicos para Usar JDBC
+1. Carregar o Driver JDBC:
+	Class.forName("com.mysql.cj.jdbc.Driver");
+
+2. Estabelecer uma Conexão:
+	Connection conn =
+	DriverManager.getConnection("jdbc:mysql://localhost:3306/meuBanco",
+	"usuario", "senha");
+
+3. Criar um Statement:
+	Statement stmt = conn.createStatement();
+
+4. Executar uma Consulta:
+	ResultSet rs = stmt.executeQuery("SELECT * FROM minhaTabela");
+
+5. Processar os Resultados:
+	while (rs.next()) {
+	 System.out.println(rs.getString("nomeColuna"));
+	}
+
+6. Fechar a Conexão:
+	rs.close();
+	stmt.close();
+	conn.close();
+
+
+Tipos de Drivers JDBC
+
+Driver Tipo 1 (JDBC-ODBC Bridge)
+	Usa uma ponte para conectar a aplicação Java ao banco de dados via
+	drivers ODBC, mas não é eficiente para produção.
+
+Driver Tipo 2 (Native-API Driver)
+	Converte chamadas JDBC em chamadas de API nativas do banco de dados,
+	mas requer bibliotecas nativas no cliente.
+
+Driver Tipo 3 (Network Protocol Driver)
+	Utiliza um middleware para converter chamadas JDBC em um protocolo de // middleeware = softwere intermediario, qua facilita a comunicação entre diferentes sistemas, "linguagem e Banco de Dados" 
+	rede específico, mas pode introduzir latência. (latencia = menos performatico, atrasa o processo de comunicação)
+
+Driver Tipo 4 (Thin Driver)(Mais utilizado)
+	Escrito inteiramente em Java, converte diretamente chamadas JDBC em
+	protocolos de rede do banco de dados, ideal para aplicações web.	
+
+
+
+Aplicando try-with-resources em JDBC
+
+Exemplo de código antes e depois da utilização do try com recursos no
+contexto do JDBC.
+
+Antes do try com Recursos
+
+Connection conn = null;
+Statement stmt = null;
+ResultSet rs = null;
+
+try {
+	 conn =
+	DriverManager.getConnection("jdbc:mysql://localhost:3306/meuBanco",
+	"usuario", "senha");
+	 stmt = conn.createStatement();
+	 rs = stmt.executeQuery("SELECT * FROM minhaTabela");
+
+	 while (rs.next()) {
+	 System.out.println(rs.getString("nomeColuna"));
+	 }
+
+} catch (SQLException e) {
+ 	e.printStackTrace();
+} finally {
+	 try {
+		 if (rs != null) rs.close();
+		 if (stmt != null) stmt.close();
+		 if (conn != null) conn.close();
+ 	} catch (SQLException e) {
+ 		e.printStackTrace();
+ 	}
+}	
+
+
+Usando try com Recursos 
+
+try (
+	 Connection conn =
+		DriverManager.getConnection("jdbc:mysql://localhost:3306/meuBanco",
+		"usuario", "senha");
+		 Statement stmt = conn.createStatement();
+		 ResultSet rs = stmt.executeQuery("SELECT * FROM minhaTabela");
+) {
+ 	while (rs.next()) {
+ 	System.out.println(rs.getString("nomeColuna"));
+ }
+} catch (SQLException e) {
+ 	e.printStackTrace();
+}
+
+
+Benefícios do try com Recursos:
+-Gerenciamento Automático de Recursos: Recursos são fechados
+	automaticamente ao final do bloco try.
+-Código Mais Limpo e Legível: Elimina a necessidade de blocos finally para
+	fechar recursos.
+-Menos Propenso a Erros: Reduz o risco de vazamentos de memória.(quando nao fecha os recursos, ficam ocupando espaço na memoria)
+-Evita Connection Leak: Esgotamento dos recursos disponíveis.( estouro do limite de conecxoes simultanes )
